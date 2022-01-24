@@ -14,7 +14,6 @@ import Calendar from './components/Calendar.vue'
   </header>
 
   <main>
-    <TheWelcome />
     <Calendar />
   </main>
 </template>
