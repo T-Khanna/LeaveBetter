@@ -22,7 +22,8 @@ export default {
         firstDay : 1,
         editable: true,
         selectable: true,
-        select: this.handleDateSelect
+        select: this.handleDateSelect,
+        timeZone: 'UTC'
       }
     }
   },
@@ -33,9 +34,23 @@ export default {
      toggleWeekends: function() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // toggle the boolean!
     },
-     handleDateSelect: function(info) {
+    select: function(info) {
       alert('selected ' + info.startStr + ' to ' + info.endStr);
-    }
+    },
+    handleDateSelect(selectInfo) {
+      let title = prompt('Please enter a new title for your event')
+      let calendar = selectInfo.view.calendar
+        calendar.unselect() // clear date selection
+      
+      if (title) {
+       calendar.addEvent({
+          title,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+          allDay: selectInfo.allDay
+        })
+      }
+    },
   }
 }
 </script>
