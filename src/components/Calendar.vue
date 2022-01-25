@@ -5,6 +5,27 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { toMoment, toMomentDuration } from '@fullcalendar/moment'
 
+async function getHolidayData() {
+  let url = "https://www.googleapis.com/calendar/v3/calendars/en-gb.uk.official%23holiday%40group.v.calendar.google.com/events?key=AIzaSyAFUS5ZZnoWq2IsGFBurjk4QJsDpIuCZXY"
+  let response = await fetch(url);
+  let data = await response.json();
+
+  var dict = {}
+
+  data.items.forEach(function(event) {
+    console.log(event.summary)
+    if (event.summary.includes("(Scotland)") || event.summary.includes("(Northern Ireland)")) {
+      // ignore
+    } else {
+      dict[event.start.date] = event.summary
+    }
+  })
+
+  return dict;
+}
+
+const holidayMappings = await getHolidayData()
+console.log(`Loaded the data '${JSON.stringify(holidayMappings)}'`)
 
 function calculateTimeoff(startDate, endDate, calendar) {
   let start = toMoment(startDate, calendar)
@@ -13,8 +34,9 @@ function calculateTimeoff(startDate, endDate, calendar) {
 
   var workDays = 0
   for (var d = 0; d < days; d++) {
-    var currDay = start.day(d).day()
-    if (currDay == 5 || currDay == 6) {
+    var currTimestamp = start.day(d)
+    var currDay = currTimestamp.day()
+    if (currDay == 5 || currDay == 6 || currTimestamp.format('YYYY-MM-DD') in holidayMappings) {
       // do nothing
     } else {
       workDays++
@@ -63,7 +85,9 @@ export default {
         calendar.unselect() // clear date selection
       
       let daysOff = calculateTimeoff(selectInfo.start, selectInfo.end, selectInfo.view.calendar)
-      console.log("Days calculated == " + daysOff)
+
+
+      alert(`You have taken ${daysOff} days OOTO!`, daysOff);
 
       if (title) {
        calendar.addEvent({
