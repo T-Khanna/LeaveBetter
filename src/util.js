@@ -1,7 +1,7 @@
 import { toMoment, toMomentDuration } from '@fullcalendar/moment'
 
 async function getHolidayData() {
-    let url = "https://www.googleapis.com/calendar/v3/calendars/en-gb.uk.official%23holiday%40group.v.calendar.google.com/events?key=AIzaSyAFUS5ZZnoWq2IsGFBurjk4QJsDpIuCZXY"
+    let url = "https://www.googleapis.com/calendar/v3/calendars/en-gb.uk.official%23holiday%40group.v.calendar.google.com/events?key=[key]"
     let response = await fetch(url);
     let data = await response.json();
 
