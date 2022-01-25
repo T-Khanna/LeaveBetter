@@ -3,6 +3,26 @@ import '@fullcalendar/core/vdom' // solves problem with Vite
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { toMoment, toMomentDuration } from '@fullcalendar/moment'
+
+
+function calculateTimeoff(startDate, endDate, calendar) {
+  let start = toMoment(startDate, calendar)
+  let end = toMoment(endDate, calendar)
+  let days = toMomentDuration(end.diff(start)).asDays()
+
+  var workDays = 0
+  for (var d = 0; d < days; d++) {
+    var currDay = start.day(d).day()
+    if (currDay == 5 || currDay == 6) {
+      // do nothing
+    } else {
+      workDays++
+    }
+  }
+
+  return workDays
+}
 
 export default {
   components: {
@@ -42,6 +62,9 @@ export default {
       let calendar = selectInfo.view.calendar
         calendar.unselect() // clear date selection
       
+      let daysOff = calculateTimeoff(selectInfo.start, selectInfo.end, selectInfo.view.calendar)
+      console.log("Days calculated == " + daysOff)
+
       if (title) {
        calendar.addEvent({
           title,
