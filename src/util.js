@@ -28,13 +28,13 @@ export function calculateTimeoff(startDate, endDate, calendar) {
 
     var workDays = 0
     for (var d = 0; d < days; d++) {
-        var currTimestamp = start.day(d)
-        var currDay = currTimestamp.day()
-        if (currDay == 5 || currDay == 6 || currTimestamp.format('YYYY-MM-DD') in holidayMappings) {
+        var currDay = start.day()
+        if (currDay == 0 || currDay == 6 || start.format('YYYY-MM-DD') in holidayMappings) {
             // do nothing
         } else {
             workDays++
         }
+        start.add(1,'days')
     }
 
     return workDays
