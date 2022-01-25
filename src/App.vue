@@ -5,13 +5,6 @@ import Calendar from './components/Calendar.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
 
   <main>
     <Calendar />
@@ -29,6 +22,11 @@ import Calendar from './components/Calendar.vue'
   font-weight: normal;
 }
 
+main {
+  margin: 0 auto;
+  width: 800px;
+}
+
 header {
   line-height: 1.5;
 }
@@ -41,15 +39,18 @@ header {
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: rgb(0, 189, 126);
   transition: 0.4s;
 }
 
+/*
+Get rid of green colour on link hover
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
+*/
 
 @media (min-width: 1024px) {
   body {
@@ -59,7 +60,6 @@ a,
 
   #app {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
 
